@@ -93,6 +93,8 @@ static void InitSchemaKeyValueMap(SchemaClassInfoData_t *pClassInfo, SchemaKeyVa
 		keyValuePair.first = hash_32_fnv1a_const(field.m_pName);
 		keyValuePair.second.offset = field.m_nSingleInheritanceOffset;
 		keyValuePair.second.networked = IsFieldNetworked(field);
+		if (field.m_pType->m_eTypeCategory == SCHEMA_TYPE_ATOMIC && field.m_pType->m_eAtomicCategory == SCHEMA_ATOMIC_COLLECTION_OF_T)
+			keyValuePair.second.manipulator = static_cast<CSchemaType_Atomic_CollectionOfT*>(field.m_pType)->m_pfnManipulator;
 
 		keyValueMap.insert(keyValuePair);
 	}
